@@ -1,37 +1,37 @@
 /*
- * Custom status screen for Corne FT
- * - Peripheral (right half): wyświetla logo FalbaTech na pełnym ekranie
- * - Central (left half): standardowe widgety ZMK (battery, output, layer)
+ * Custom status screen for Corne FT z OLED
  *
- * Override domyślnej weak funkcji zmk_display_status_screen() z ZMK.
+ * Peripheral (prawa połówka): wyświetla logo FalbaTech na pełnym ekranie 128x32
+ * Central (lewa połówka): standardowe widgety ZMK (battery, output, layer)
+ *
+ * Override dla weak symbol zmk_display_status_screen() z core ZMK.
  */
 
 #include <zephyr/kernel.h>
 #include <lvgl.h>
-
-#include <zmk/display.h>
-#include <zmk/display/status_screen.h>
 
 #include <zephyr/logging/log.h>
 LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 
 #include "falbatech_logo.h"
 
-#if IS_ENABLED(CONFIG_ZMK_SPLIT) && !IS_ENABLED(CONFIG_ZMK_SPLIT_ROLE_CENTRAL)
-/* Peripheral (prawa połówka) - tylko logo na pełnym ekranie */
+#if !IS_ENABLED(CONFIG_ZMK_SPLIT_ROLE_CENTRAL)
+
+/* Peripheral - tylko logo na pełnym ekranie */
 
 lv_obj_t *zmk_display_status_screen(void) {
     lv_obj_t *screen = lv_obj_create(NULL);
 
-    lv_obj_t *logo = lv_img_create(screen);
-    lv_img_set_src(logo, &falbatech_logo);
+    lv_obj_t *logo = lv_image_create(screen);
+    lv_image_set_src(logo, &falbatech_logo);
     lv_obj_align(logo, LV_ALIGN_CENTER, 0, 0);
 
     return screen;
 }
 
 #else
-/* Central (lewa połówka) lub klawiatura nie-split - standardowe widgety */
+
+/* Central - standardowe widgety ZMK */
 
 #include <zmk/display/widgets/output_status.h>
 #include <zmk/display/widgets/battery_status.h>
@@ -66,8 +66,6 @@ lv_obj_t *zmk_display_status_screen(void) {
 
 #if IS_ENABLED(CONFIG_ZMK_WIDGET_LAYER_STATUS)
     zmk_widget_layer_status_init(&layer_status_widget, screen);
-    lv_obj_set_style_text_font(zmk_widget_layer_status_obj(&layer_status_widget),
-                               lv_theme_get_font_small(screen), LV_PART_MAIN);
     lv_obj_align(zmk_widget_layer_status_obj(&layer_status_widget),
                  LV_ALIGN_BOTTOM_LEFT, 0, 0);
 #endif
