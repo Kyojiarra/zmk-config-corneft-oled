@@ -1,7 +1,7 @@
-# Custom status screen for Corne FT z OLED
-# Wzór z corneish_zen w upstream ZMK
+# Custom status screen with FalbaTech logo on peripheral
+# Aktywny gdy CONFIG_ZMK_DISPLAY_STATUS_SCREEN_CUSTOM=y
 
-if(CONFIG_CUSTOM_STATUS_SCREEN)
+if(CONFIG_ZMK_DISPLAY_STATUS_SCREEN_CUSTOM)
   zephyr_library()
   zephyr_library_sources(src/falbatech_logo.c)
   zephyr_library_sources(src/status_screen.c)
