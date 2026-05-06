@@ -1,0 +1,9 @@
+# Konfiguracja custom status screen (logo FalbaTech)
+
+config CUSTOM_STATUS_SCREEN
+    bool "Custom status screen with FalbaTech logo"
+    depends on ZMK_DISPLAY
+    default n
+    help
+      Aktywuje custom status screen z logo FalbaTech wyświetlanym na peripheralu.
+      Lewa połówka pokazuje normalne widget'y (battery, BT, layer).
