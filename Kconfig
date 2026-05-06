@@ -1,9 +1,9 @@
-# Konfiguracja custom status screen (logo FalbaTech)
+# Aktywacja LV_USE_IMAGE gdy włączamy custom status screen
+# (potrzebne dla lv_image_create / lv_image_set_src w LVGL 9)
 
-config CUSTOM_STATUS_SCREEN
-    bool "Custom status screen with FalbaTech logo"
-    depends on ZMK_DISPLAY
-    default n
-    help
-      Aktywuje custom status screen z logo FalbaTech wyświetlanym na peripheralu.
-      Lewa połówka pokazuje normalne widget'y (battery, BT, layer).
+if ZMK_DISPLAY_STATUS_SCREEN_CUSTOM
+
+config LV_USE_IMAGE
+    default y
+
+endif
