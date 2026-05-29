@@ -1,6 +1,11 @@
 /*
  * FalbaTech logo - 128x32 monochrome bitmap
- * Format: LVGL 9 LV_COLOR_FORMAT_I1
+ * Format: LVGL 9 LV_COLOR_FORMAT_A1
+ *
+ * A1: 1-bit alpha, no palette.
+ *   bit=1 → opaque (white / pixel ON on OLED)
+ *   bit=0 → transparent (black background / pixel OFF)
+ * stride = 128/8 = 16 bytes per row, 32 rows = 512 bytes total.
  */
 
 #include <lvgl.h>
@@ -15,9 +20,6 @@
 
 const LV_ATTRIBUTE_MEM_ALIGN LV_ATTRIBUTE_LARGE_CONST LV_ATTRIBUTE_IMG_FALBATECH_LOGO uint8_t
     falbatech_logo_map[] = {
-        0xff, 0xff, 0xff, 0xff, /*Color of index 0 - white*/
-        0x00, 0x00, 0x00, 0xff, /*Color of index 1 - black*/
-
         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
         0x00, 0x00, 0x00, 0x00, 0x03, 0x80, 0x00, 0x00, 0x00, 0x00, 0x03, 0x80, 0x00, 0x00, 0x00, 0x00,
         0x00, 0x00, 0x00, 0x00, 0x07, 0xf8, 0x00, 0x00, 0x00, 0x00, 0x3f, 0xc0, 0x00, 0x00, 0x00, 0x00,
@@ -56,7 +58,7 @@ const lv_image_dsc_t falbatech_logo = {
     .header =
         {
             .magic = LV_IMAGE_HEADER_MAGIC,
-            .cf = LV_COLOR_FORMAT_I1,
+            .cf = LV_COLOR_FORMAT_A1,
             .w = 128,
             .h = 32,
             .stride = 16,
