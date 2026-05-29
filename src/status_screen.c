@@ -21,9 +21,15 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 
 lv_obj_t *zmk_display_status_screen(void) {
     lv_obj_t *screen = lv_obj_create(NULL);
+    /* Explicit black background so transparent A1 pixels don't show garbage */
+    lv_obj_set_style_bg_color(screen, lv_color_black(), LV_PART_MAIN);
+    lv_obj_set_style_bg_opa(screen, LV_OPA_COVER, LV_PART_MAIN);
 
     lv_obj_t *logo = lv_image_create(screen);
     lv_image_set_src(logo, &falbatech_logo);
+    /* A1: recolor opaque pixels to white so they light up on the OLED */
+    lv_obj_set_style_image_recolor(logo, lv_color_white(), LV_PART_MAIN);
+    lv_obj_set_style_image_recolor_opa(logo, LV_OPA_COVER, LV_PART_MAIN);
     lv_obj_align(logo, LV_ALIGN_CENTER, 0, 0);
 
     return screen;
